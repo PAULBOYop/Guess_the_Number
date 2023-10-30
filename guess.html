@@ -290,15 +290,14 @@
         buttons.click();
     }
 });
-        start.addEventListener("click", newGame());
+        start.addEventListener("click", newGame);
         buttons.addEventListener('click', () => {
             guessNum();
             displayGuess();
             //  restartGame();
 
         });
-        newGameButton.addEventListener('click', newGame());
-
+        newGameButton.addEventListener('click', newGame);
         window.onload = newGame;
     </script>
 </body>
