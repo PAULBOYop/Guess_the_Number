@@ -284,14 +284,21 @@
             if (parseInt(guess.value === randomNumber)) {
             }
         }
-
-        start.addEventListener("click", newGame);
+        guess.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        buttons.click();
+    }
+});
+        start.addEventListener("click", newGame());
         buttons.addEventListener('click', () => {
             guessNum();
             displayGuess();
             //  restartGame();
 
         });
+        newGameButton.addEventListener('click', newGame());
+
+        window.onload = newGame;
     </script>
 </body>
 
