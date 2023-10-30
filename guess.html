@@ -62,7 +62,7 @@
             font-size: 20px;
             padding: 20px 10px;
             margin: 0 10px;
-            width: 90%;
+            width: 0%;
             height: 30px;
             box-shadow: rgba(50, 50, 93, 0.85) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.2) 0px 18px 36px -18px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
             text-align: center;
@@ -71,7 +71,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all .2s;
+            transition: width .5s;
             opacity: 0;
             overflow: hidden;
         }
@@ -115,7 +115,7 @@
             background: rgb(47, 255, 0);
             height: 30px;
             box-shadow: rgba(50, 50, 93, 0.85) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.2) 0px 18px 36px -18px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
-            width: 90%;
+            width: 100%;
             position: relative;
             padding: 20px 0;
             text-align: center;
@@ -146,7 +146,7 @@
 
         .once {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             gap: 10px;
             /* background: red; */
@@ -161,6 +161,7 @@
             /* padding: 20px 0; */
             margin-top: 30px;
             font-size: 1.2rem;
+            transition: .5s;
             text-align: center;
         }
 
@@ -182,10 +183,51 @@
             box-shadow: rgba(136, 0, 255, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
             transition: all 0.2s ease;
         }
+
         @media (min-width:665px) {
-            #guess{
+            #guess {
                 font-size: 25px;
             }
+        }
+
+        #restart {
+            position: absolute;
+            /* background: rgb(255, 255, 255); */
+            width: 60vw;
+            min-width: 350px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 1.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid #c4bfbf;
+            display: none;
+        }
+
+        ion-icon {
+            /* position: absolute; */
+            /* background: rgb(255, 255, 255); */
+            /* width:60vw; */
+            min-width: 40px;
+            height: 40px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            /* left: 47%;
+             top: 36vw; */
+            font-size: .2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        ion-icon:hover {
+            scale: 1.3;
         }
     </style>
 </head>
@@ -197,13 +239,18 @@
         <button id="buttons" type="submit">Submit</button>
         <span id="submit"></span>
         <div class="once">
-
             <p id="next"></p>
             <div class="attempt"></div>
         </div>
         <div class="on"></div>
         <button id="newGameButton">Start New Game</button>
     </div>
+    <span id="restart">Restart
+        <ion-icon onclick="change()" id="icon" name="refresh-outline"></ion-icon>
+    </span>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     <script>
         const guess = document.querySelector('#input');
@@ -212,6 +259,8 @@
         const display = document.querySelector('#submit');
         const next = document.querySelector('#next');
         const start = document.getElementById('newGameButton');
+        const restart = document.getElementById('restart');
+        const icon = document.getElementById('icon');
         let randomNumber;
         let initguess = [];
         let gameOver = false;
@@ -222,6 +271,8 @@
             display.innerHTML = '';
             next.innerHTML = '';
             next.style.opacity = 0;
+            next.style.display = 'none';
+            next.style.width = '0%';
             guess.value = '';
             gameOver = false;
             attempt = 10;
@@ -256,29 +307,52 @@
                 display.innerHTML = "Please enter a valid number.";
             }
         }
+        function change() {
+            newGame();
+            restart.style.display = 'none';
+        }
 
         const displayGuess = () => {
             const guessValue = parseInt(guess.value);
             if (!isNaN(guessValue)) {
                 initguess.push(guessValue);
                 next.innerHTML = `<p>Your previous guesses: ${initguess.join(', ')}</p>`;
+                next.style.width = '90%';
+                setTimeout(() => {
+                    next.style.width = '90%'; 
+                }, 10);
                 next.style.opacity = 1;
+                next.style.display = 'block';
                 next.style.fontSize = '.8rem';
+                document.querySelector('.once').style.transition = 'width 0.2s';
 
             }
         }
 
-        const restartGame = () => {
-            newGame();
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Tab') {
+                restart.style.display = 'flex';
+                icon.addEventListener('mouseEnter', () => {
+                    icon.style.scale = 1.2;
+                })
+                newGame();
+            }
+            if (event.key === 'Enter') {
+                newGame;
+            }
+        });
+        function just() {
+            restart.style.display = 'flex';
         }
-
         const attempt1 = () => {
             attempt--;
             if (attempt <= 0) {
                 document.querySelector('.attempt').innerHTML = `You have no more attempts! The number was ${randomNumber}😂`;
                 gameOver = true;
                 buttons.disabled = true;
-                document.querySelector('.attempt').style.fontSize = '.8rem';
+                document.querySelector('.attempt').style.fontSize = .8 + 'rem';
+                setTimeout(just, 5000);
+
             } else {
                 document.querySelector('.attempt').innerHTML = `Attempts remaining: ${attempt}`;
             }
@@ -286,15 +360,18 @@
             }
         }
         guess.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-        buttons.click();
-    }
-});
+            if (event.key === 'Enter') {
+                buttons.click();
+                guess.value = '';
+            }
+        });
+
+
         start.addEventListener("click", newGame);
         buttons.addEventListener('click', () => {
             guessNum();
             displayGuess();
-            //  restartGame();
+            restartGame();
 
         });
         newGameButton.addEventListener('click', newGame);
