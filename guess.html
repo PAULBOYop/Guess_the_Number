@@ -295,7 +295,7 @@
                 document.querySelector('.on').innerHTML = `🎉 Congratulations! You won on last ${attempt} attempts.`;
                 newGameButton.style.marginTop = '10%';
                 buttons.disabled = true;
-
+                setTimeout(just, 8000);
 
             } else if (parseInt(guess.value) > randomNumber) {
                 display.innerHTML = "Your guess is too high!";
@@ -363,15 +363,18 @@
             if (event.key === 'Enter') {
                 buttons.click();
                 guess.value = '';
+                
             }
         });
-
-
+        
+        
         start.addEventListener("click", newGame);
         buttons.addEventListener('click', () => {
             guessNum();
             displayGuess();
+            guess.value = '';
             restartGame();
+
 
         });
         newGameButton.addEventListener('click', newGame);
