@@ -223,7 +223,7 @@
             next.innerHTML = '';
             next.style.opacity = 0;
             guess.value = '';
-            // gameOver = false;
+            gameOver = false;
             attempt = 10;
             document.querySelector('.attempt').innerHTML = `Attempts remaining: ${attempt}`;
             buttons.disabled = false;
@@ -243,6 +243,7 @@
                 gameOver = true;
                 document.querySelector('.on').innerHTML = `🎉 Congratulations! You won on last ${attempt} attempts.`;
                 newGameButton.style.marginTop = '10%';
+                buttons.disabled = true;
 
 
             } else if (parseInt(guess.value) > randomNumber) {
